@@ -1,0 +1,67 @@
+package demowebshop;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+import com.objectRepository.AddressesPage;
+import com.objectRepository.EditAddressPage;
+import com.genericUtilities.BaseTest;
+import com.objectRepository.AccountsPage;
+import com.objectRepository.AddNewAddressPage;
+
+public class AddressTest extends BaseTest {
+	
+	@Test(priority = 1)
+	public void addAddressTest()
+	{
+		AccountsPage ap = new AccountsPage(driver);
+		ap.getAccountPageLink();
+		AddressesPage addp = new AddressesPage(driver);
+		addp.getAddNewButton().click();
+		AddNewAddressPage anap = new AddNewAddressPage(driver);
+		anap.getFirstnameTextField().sendKeys("Vamsi");
+		anap.getlastnameTextField().sendKeys("Krishnan");
+		anap.getEmailTextField().sendKeys("vamsi007@yahoo.com");
+		WebElement countrydropdown = anap.getCountrydropdown();
+		Select sel = new Select(countrydropdown);
+		sel.selectByVisibleText("India");
+		anap.getCityTextField().sendKeys("Chennai");
+		anap.getAddressTextField().sendKeys("All over india");
+		anap.getZipCodeTextField().sendKeys("600118");
+		anap.getPhoneNumberTextField().sendKeys("1234567890");
+        anap.getSaveButton().click();
+		Reporter.log("addAddressTest Successful...");
+		
+	}
+	
+	@Test(priority = 2)
+	public void UpdateAddessTest()
+	{
+		AccountsPage ap = new AccountsPage(driver);
+		WebDriver accountPageLink = ap.getAccountPageLink();
+		AddressesPage adp = new AddressesPage(accountPageLink);
+		adp.getAddressLink();
+		adp.getEditButton().click();
+		EditAddressPage eap = new EditAddressPage(driver);
+		eap.getFirstnameTextField().clear();
+		eap.getFirstnameTextField().sendKeys("Vamsi");
+		eap.getSaveButton().click();
+		Reporter.log("UpdateAddessTest Successful...");
+
+	}
+	
+	@Test(priority = 3)
+	public void deleteAddressTest()
+	{
+		AccountsPage ap = new AccountsPage(driver);
+		WebDriver accountPageLink = ap.getAccountPageLink();
+		AddressesPage adp = new AddressesPage(accountPageLink);
+		adp.getAddressLink().click();
+		adp.getDeleteButton().click();
+		driver.switchTo().alert().accept();
+		Reporter.log("deleteAddressTest Successful...");
+
+	}
+
+}
