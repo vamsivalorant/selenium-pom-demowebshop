@@ -1,0 +1,80 @@
+package demowebshop;
+import java.io.File;
+import java.io.IOException;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+import com.genericUtilities.BaseTest;
+import com.objectRepository.ProductPage;
+import com.objectRepository.SearchPage;
+import com.objectRepository.ShoppingCartPage;
+import com.objectRepository.WishlistPage;
+
+public class WishlistTest extends BaseTest{
+	
+	@Test(priority = 1)
+	public void AddToWishlist() throws IOException
+	{
+        
+		SearchPage sp = new SearchPage(driver);
+		sp.getSearchfieldText().sendKeys("Smartphone",Keys.ENTER);
+		sp.getSmartphoneLink().click();
+		
+		ProductPage pp = new ProductPage(driver);
+		pp.getAddToWishlistButton().click();
+		
+		WishlistPage wp = new WishlistPage(driver);
+		wp.getWishListLink().click();
+		
+		TakesScreenshot ts =(TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./src/test/resources/screenshots/AddToWishlist.png");
+	    FileHandler.copy(source, destination);
+	    Reporter.log("AddtoWishList successfull.....",true);
+
+		
+	}
+
+	@Test(priority = 2)
+	public void UpdateWishList() throws IOException
+	{
+		WishlistPage wp = new WishlistPage(driver);
+		wp.getWishListLink().click();
+		wp.getWishlistItemQuantity().clear();
+		wp.getWishlistItemQuantity().sendKeys("5");
+		wp.getUpdateWishlistButton().click();
+				
+		TakesScreenshot ts =(TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./src/test/resources/screenshots/UpdateWishlist.png");
+	    FileHandler.copy(source, destination);
+	    
+	    Reporter.log("UpdateWishlist successfull.....",true);
+		
+	}
+	
+	@Test(priority = 3)
+	public void addtocartFromWishlist() throws IOException
+	{
+       
+		WishlistPage wp = new WishlistPage(driver);
+		wp.getWishListLink().click();
+		wp.getAddtoCartFromWishlist().click();
+		wp.getAddtoCartFromWishlistButton().click();
+		
+		ShoppingCartPage scp = new ShoppingCartPage(driver);
+		scp.getShoopingcartLink().click();
+		TakesScreenshot ts =(TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./src/test/resources/screenshots/addtocartFromWishlist.png");
+	    FileHandler.copy(source, destination);
+	    
+	    Reporter.log("addtocartFromWishlist successfull.....",true);
+	    
+		
+	}
+	
+		}
