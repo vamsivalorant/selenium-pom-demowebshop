@@ -1,0 +1,76 @@
+package demowebshop;
+import java.io.File;
+import java.io.IOException;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+import com.genericUtilities.BaseTest;
+import com.objectRepository.SearchPage;
+import com.objectRepository.ShoppingCartPage;
+
+public class CartTest extends BaseTest {
+	
+	@Test(priority = 1)
+	public void AddToCartTest() throws IOException
+	{
+		
+		SearchPage sp = new SearchPage(driver);
+		sp.getSearchfieldText().sendKeys("Laptop", Keys.ENTER);
+		
+		ShoppingCartPage scp = new ShoppingCartPage(driver);
+		scp.getAddToCartButton().click();
+		scp.getShoopingcartLink().click();
+	
+		TakesScreenshot ts =(TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./src/test/resources/screenshots/AddtoCart.png");
+	    FileHandler.copy(source, destination);
+	    
+	    Reporter.log("AddToCartTest successfull.....",true);
+		
+		
+	}
+	
+	@Test(priority = 2)
+	public void updateCartTest() throws IOException
+	{
+		
+		ShoppingCartPage scp = new ShoppingCartPage(driver);
+		scp.getShoopingcartLink().click();
+
+		scp.getItemQuantity().clear();
+		scp.getItemQuantity().sendKeys("10");
+		scp.getUpdateCartButton().click();
+		
+	
+		TakesScreenshot ts =(TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./src/test/resources/screenshots/UpdateCart.png");
+	    FileHandler.copy(source, destination);
+	    
+	    Reporter.log("UpdateCart successfull.....",true);
+
+
+	}
+
+	@Test(priority = 3)
+	public void removecart() throws IOException
+	{
+		ShoppingCartPage scp = new ShoppingCartPage(driver);
+		scp.getShoopingcartLink().click();
+		scp.getRemoveFromCartButton().click();
+		scp.getUpdateCartButton().click();
+
+		TakesScreenshot ts =(TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./src/test/resources/screenshots/removecart.png");
+	    FileHandler.copy(source, destination);
+
+	    Reporter.log("Removecart successfull.....",true);
+		
+
+	}
+}
